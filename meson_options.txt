@@ -1,0 +1,6 @@
+option('enable-test', type: 'boolean', value: false)
+# features
+option('openmp-support', type: 'feature', value: 'auto')
+# choices
+option('generate-executables', type: 'array',  choices : ['all', 'fp32', 'quantized'], value : ['all'])
+
