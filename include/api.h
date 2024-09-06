@@ -7,5 +7,6 @@
 
 void chat(Transformer *transformer, Tokenizer *tokenizer, Sampler *sampler, char *cli_user_prompt, char *cli_system_prompt, int steps);
 void generate(Transformer *transformer, Tokenizer *tokenizer, Sampler *sampler, char *prompt, int steps);
+char* get_tokens(Transformer *transformer, Tokenizer *tokenizer, Sampler *sampler, char *prompt, int steps);
 
 #endif // __API_H__
