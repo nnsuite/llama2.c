@@ -15,6 +15,12 @@ libm_dep = cc.find_library('m')
 
 deps = [libm_dep]
 
+llama2c_install_prefix = get_option('prefix')
+llama2c_install_libdir = join_paths(llama2c_install_prefix, get_option('libdir'))
+llama2c_install_includedir = join_paths(llama2c_install_prefix, get_option('includedir'))
+
+subdir('include')
+
 # TODO: Build for Windows is not supported yet.
 if target_machine.system() == 'windows'
   src_run += files('win.c')
@@ -35,10 +41,28 @@ src_llama2_quantized = src_core + files('transformer_quantized.c')
 
 libllama2c = shared_library('llama2c',
     src_llama2,
+    install: true,
+    install_dir: llama2c_install_libdir,
     dependencies: deps)
+
 libllama2cq = shared_library('llama2cq',
     src_llama2_quantized,
+    install: true,
+    install_dir: llama2c_install_libdir,
     dependencies: deps)
+
+pkgconfig_module = import ('pkgconfig')
+pkgconfig_module.generate(
+  name: 'llama2c',
+  description: 'Inference Llama 2 in one file of pure C',
+  libraries: [libllama2c, deps]
+)
+
+pkgconfig_module.generate(
+  name: 'llama2cq',
+  description: 'Inference Llama 2 in one file of pure C (quantized)',
+  libraries: [libllama2c, deps],
+)
 
 opt_gen_bin = get_option('generate-executables')
 if opt_gen_bin.contains('all')
