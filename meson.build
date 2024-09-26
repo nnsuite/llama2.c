@@ -3,6 +3,7 @@ project('llama2.c', 'c',
   license: 'MIT',
   license_files: 'LICENSE',
   default_options : [
+    'optimization=3',
     'werror=true',
     'warning_level=3',
   ]
